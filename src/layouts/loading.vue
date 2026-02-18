@@ -1,6 +1,6 @@
 <script lang="ts" setup>
- import logo from '@/assets/logo.svg'
- import name from '@/assets/name.svg'
+ import logo from '@/assets/images/logo.svg'
+ import name from '@/assets/images/name.svg'
 </script>
 
 <template>

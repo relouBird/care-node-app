@@ -71,20 +71,20 @@ meta:
             rounded="lg"
             :loading="loading"
             :disabled="!valid"
-            class="mb-4 text-none"
+            class="mb-4 text-none rounded-xl"
           >
             <span class="text-h6 font-weight-medium">Se connecter</span>
           </v-btn>
 
           <!-- Se souvenir / Mot de passe oublié -->
           <div class="d-flex justify-space-between align-center">
-            <p>
+            <p class="font-define">
               <span>Mot de passe oublié ?</span>
               <span class="pl-3"
                 ><router-link
                   @click="forgotPassword"
                   to="#"
-                  class="text-decoration-none text-body-2 text-medium-emphasis text-primary"
+                  class="text-decoration-none text-body-2 text-medium-emphasis text-primary font-define"
                 >
                   Retrouver le ici.
                 </router-link>
@@ -105,8 +105,7 @@ meta:
             color="grey-darken-1"
             size="large"
             block
-            rounded="lg"
-            class="mb-3 text-none"
+            class="mb-3 text-none rounded-xl"
             prepend-icon="mdi-google"
             @click="
               () => {
@@ -136,8 +135,8 @@ meta:
 </template>
 
 <script setup lang="ts">
-import logo from "@/assets/logo.svg";
-import name from "@/assets/name.svg";
+import logo from "@/assets/images/logo.svg";
+import name from "@/assets/images/name.svg";
 import ToastLoading from "@/components/ui/toast-loading.vue";
 import ToastNotifications from "@/components/ui/toast-notifications.vue";
 

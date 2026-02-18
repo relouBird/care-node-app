@@ -18,8 +18,6 @@
       />
     </a>
 
-    <p>Relou</p>
-
     <div
       class="text-caption text-disabled"
       style="position: absolute; right: 16px;"

@@ -80,8 +80,8 @@
 
 <script setup lang="ts">
 // Logo...
-import logo from "@/assets/logo-white.svg";
-import name from "@/assets/name-white.svg";
+import logo from "@/assets/images/logo-white.svg";
+import name from "@/assets/images/name-white.svg";
 // Layout minimaliste pour les pages d'authentification
 </script>
 
