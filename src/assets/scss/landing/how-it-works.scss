@@ -1,0 +1,231 @@
+.how-it-works-section {
+  padding: 100px 0;
+  background: rgb(var(--v-theme-surface));
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: linear-gradient(180deg, rgb(var(--v-theme-lightprimary)) 0%, transparent 100%);
+    z-index: 0;
+  }
+
+  .v-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    .v-chip {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: rgb(var(--v-theme-textPrimary));
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: rgb(var(--v-theme-textSecondary));
+      max-width: 700px;
+      line-height: 1.7;
+    }
+  }
+
+  .timeline-wrapper {
+    position: relative;
+    padding: 3rem 0;
+
+    .timeline-line {
+      position: absolute;
+      top: 5rem;
+      left: 12.5%;
+      right: 12.5%;
+      height: 4px;
+      background: linear-gradient(90deg,
+              rgb(var(--v-theme-primary)) 0%,
+              rgb(var(--v-theme-secondary)) 50%,
+              rgb(var(--v-theme-success)) 75%,
+              rgb(var(--v-theme-info)) 100%);
+      border-radius: 2px;
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+
+      @for $i from 0 through 3 {
+        &.step-card-#{$i} {
+          animation: fadeInUp 0.6s ease-out #{$i * 0.15}s both;
+        }
+      }
+
+      .step-number-wrapper {
+        position: absolute;
+        top: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .step-number {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        position: relative;
+        z-index: 2;
+
+        &.step-number-primary {
+          background: rgb(var(--v-theme-primary));
+        }
+
+        &.step-number-secondary {
+          background: rgb(var(--v-theme-secondary));
+        }
+
+        &.step-number-success {
+          background: rgb(var(--v-theme-success));
+        }
+
+        &.step-number-info {
+          background: rgb(var(--v-theme-info));
+        }
+      }
+
+      .step-icon-wrapper {
+        margin-top: 2rem;
+
+        .step-icon {
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+          }
+        }
+      }
+
+      .step-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: rgb(var(--v-theme-textPrimary));
+      }
+
+      .step-description {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: rgb(var(--v-theme-textSecondary));
+      }
+    }
+  }
+
+  .step-card-mobile {
+    border-radius: 16px;
+    transition: all 0.3s ease;
+
+    @for $i from 0 through 3 {
+      &.step-card-mobile-#{$i} {
+        animation: fadeInUp 0.6s ease-out #{$i * 0.1}s both;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .step-number-mobile {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 0.25rem;
+
+      &.step-number-primary {
+        color: rgb(var(--v-theme-primary));
+      }
+
+      &.step-number-secondary {
+        color: rgb(var(--v-theme-secondary));
+      }
+
+      &.step-number-success {
+        color: rgb(var(--v-theme-success));
+      }
+
+      &.step-number-info {
+        color: rgb(var(--v-theme-info));
+      }
+    }
+
+    .step-title-mobile {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: rgb(var(--v-theme-textPrimary));
+      margin: 0;
+    }
+
+    .step-description-mobile {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: rgb(var(--v-theme-textSecondary));
+      margin: 0;
+    }
+  }
+
+  .cta-button {
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 24px rgba(95, 40, 14, 0.25);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 12px 32px rgba(95, 40, 14, 0.35);
+      transform: translateY(-3px);
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .how-it-works-section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .how-it-works-section {
+    padding: 40px 0;
+
+    .step-card-mobile {
+      margin-bottom: 1rem !important;
+    }
+  }
+}

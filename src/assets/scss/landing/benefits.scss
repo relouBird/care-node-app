@@ -1,0 +1,153 @@
+.benefits-section {
+  padding: 100px 0;
+  background: linear-gradient(180deg, rgb(var(--v-theme-surface)) 0%, rgb(var(--v-theme-background)) 100%);
+
+  .section-header {
+    .v-chip {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: rgb(var(--v-theme-textPrimary));
+    }
+
+    .section-subtitle {
+      font-size: 1.125rem;
+      color: rgb(var(--v-theme-textSecondary));
+      max-width: 700px;
+      line-height: 1.7;
+    }
+  }
+
+  .benefit-row {
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .benefit-content {
+    @for $i from 0 through 2 {
+      &.benefit-content-#{$i} {
+        animation: fadeInLeft 0.8s ease-out #{$i * 0.2}s both;
+      }
+    }
+
+    .benefit-subtitle {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .benefit-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: rgb(var(--v-theme-textPrimary));
+    }
+
+    .benefit-points {
+      margin-top: 2rem;
+    }
+
+    .benefit-point {
+      .point-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: rgb(var(--v-theme-textSecondary));
+      }
+    }
+  }
+
+  .benefit-image-wrapper {
+    @for $i from 0 through 2 {
+      &.benefit-image-#{$i} {
+        animation: fadeInRight 0.8s ease-out #{$i * 0.2}s both;
+      }
+    }
+
+    .benefit-image-card {
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      .benefit-image {
+        min-height: 350px;
+      }
+
+      .image-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 350px;
+        background: rgb(var(--v-theme-grey100));
+      }
+    }
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 960px) {
+  .benefits-section {
+    padding: 60px 0;
+
+    .benefit-row {
+      margin-bottom: 4rem !important;
+
+      .v-row {
+        flex-direction: column !important;
+      }
+    }
+
+    .benefit-content {
+      margin-bottom: 2rem;
+      text-align: center;
+
+      .d-flex.align-center {
+        justify-content: center;
+      }
+
+      .benefit-points {
+        text-align: left;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .benefits-section {
+    padding: 40px 0;
+
+    .benefit-title {
+      font-size: 1.5rem !important;
+    }
+  }
+}

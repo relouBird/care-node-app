@@ -43,7 +43,8 @@ meta:
             variant="outlined"
             :rules="usernameRules"
             color="primary"
-            class="mb-4"
+            class="mb-4 rounded-xl"
+            rounded="xl"
             required
           />
 

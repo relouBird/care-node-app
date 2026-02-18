@@ -1,0 +1,16 @@
+@use '../variables' as *;
+
+
+
+.v-field {
+    font-size: 14px;
+    color:  rgba(var(--v-theme-textPrimary));
+}
+
+// select outlined
+.v-field--variant-outlined .v-field__outline__start,
+.v-field--variant-outlined .v-field__outline__notch::before,
+.v-field--variant-outlined .v-field__outline__notch::after,
+.v-field--variant-outlined .v-field__outline__end {
+    opacity: 1;
+}

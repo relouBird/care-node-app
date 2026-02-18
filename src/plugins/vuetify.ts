@@ -30,7 +30,6 @@ export default createVuetify({
       rounded: "xl",
       className: "text-transform-none",
       variant: "flat",
-      elevation: 1,
     },
     VBtnSecondary: {
       variant: "outlined",

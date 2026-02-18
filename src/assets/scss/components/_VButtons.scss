@@ -1,0 +1,15 @@
+.v-btn-group .v-btn {
+    height: inherit !important;
+}
+
+.v-btn-group {
+    border-color: rgb(var(--v-theme-borderColor)) !important;
+}
+.v-btn{
+    text-transform: none !important;
+    letter-spacing: 0;
+    box-shadow: none;
+}
+.v-btn--elevated:hover{
+    box-shadow: none;
+}

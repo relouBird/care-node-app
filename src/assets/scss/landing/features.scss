@@ -1,0 +1,197 @@
+.cta-section {
+  padding: 100px 0;
+  background: rgb(var(--v-theme-surface));
+
+  .cta-card {
+    position: relative;
+    background: linear-gradient(135deg, rgb(var(--v-theme-primary)) 0%, rgba(var(--v-theme-primary), 0.8) 100%);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(95, 40, 14, 0.25);
+    animation: fadeInUp 0.8s ease-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
+      opacity: 0.5;
+    }
+
+    .v-card-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-content {
+      color: white;
+
+      .cta-icon {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .cta-title {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 800;
+        color: white;
+      }
+
+      .cta-subtitle {
+        font-size: 1.125rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+      }
+
+      .cta-description {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: 1rem;
+      }
+
+      .gap-3 {
+        gap: 1rem;
+      }
+
+      .cta-feature {
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+      }
+    }
+
+    .cta-actions {
+      .cta-button {
+        font-weight: 700;
+        text-transform: none;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+          transform: translateY(-3px);
+        }
+      }
+
+      .v-btn--outlined {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: white;
+        }
+      }
+    }
+
+    .cta-decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 1;
+
+      &.cta-decoration-1 {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        right: -100px;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      &.cta-decoration-2 {
+        width: 200px;
+        height: 200px;
+        bottom: -100px;
+        left: 10%;
+        animation: float 8s ease-in-out infinite;
+        animation-delay: 1s;
+      }
+
+      &.cta-decoration-3 {
+        width: 150px;
+        height: 150px;
+        top: 50%;
+        left: -75px;
+        animation: float 7s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media (max-width: 960px) {
+  .cta-section {
+    padding: 60px 0;
+
+    .cta-card {
+      .cta-content {
+        text-align: center;
+
+        .d-flex.align-center {
+          justify-content: center;
+        }
+
+        .gap-3 {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      .cta-actions {
+        margin-top: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .cta-section {
+    padding: 40px 0;
+
+    .cta-card {
+      border-radius: 20px;
+
+      .v-card-text {
+        padding: 2rem !important;
+      }
+
+      .cta-decoration {
+        display: none;
+      }
+    }
+  }
+}
