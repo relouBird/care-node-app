@@ -1,13 +1,20 @@
 <template>
-  <v-navigation-drawer permanent class="sidebar" width="280" elevation="0">
+  <v-navigation-drawer
+    permanent
+    class="sidebar"
+    :width="!modelValue ? 280 : 80"
+    elevation="0"
+  >
     <!-- Logo et titre -->
     <div class="sidebar-header">
       <div>
         <v-img :src="logo" alt="Care Node" width="50" class="" />
       </div>
-      <div>
-        <v-img :src="name" alt="Care Node Name" width="145" class="" />
-      </div>
+      <transition name="fade-slide">
+        <div v-if="!modelValue" class="name-wrapper">
+          <v-img :src="name" alt="Care Node Name" width="145" />
+        </div>
+      </transition>
     </div>
 
     <v-divider class="my-4" />
@@ -21,6 +28,7 @@
         :value="item.value"
         rounded="xl"
         class="nav-item"
+        v-if="!modelValue"
       >
         <template v-slot:prepend>
           <component :is="item.icon" :size="25" class="nav-icon ml-1 mr-3" />
@@ -29,19 +37,33 @@
           {{ item.label }}
         </v-list-item-title>
       </v-list-item>
+
+      <v-list-item
+        v-for="item in navItems"
+        :key="item.value + 1"
+        :to="item.to"
+        :value="item.value"
+        rounded="circle"
+        class="nav-item retract d-flex align-center justify-center"
+        v-else
+      >
+        <div class="retract">
+          <component :is="item.icon" :size="25" class="nav-icon ml-1 mr-3" />
+        </div>
+      </v-list-item>
     </v-list>
 
     <!-- Footer de la sidebar -->
     <template v-slot:append>
-      <div class="sidebar-footer">
+      <div :class="['sidebar-footer', !modelValue ? '' : 'pa-2 px-3']">
         <v-divider class="mb-4" />
 
         <!-- User info -->
         <div class="user-info">
-          <v-avatar size="48" color="primary">
+          <v-avatar :size="!modelValue ? 48 : 32" color="primary">
             <v-icon icon="mdi-account" />
           </v-avatar>
-          <div class="user-details">
+          <div class="user-details" v-if="!modelValue">
             <div class="user-name">Super Admin</div>
             <div class="user-role">Administrateur</div>
           </div>
@@ -49,14 +71,28 @@
 
         <!-- Logout button -->
         <v-btn
-          variant="text"
-          prepend-icon="mdi-logout"
+          variant="tonal"
+          color="error"
+          class="logout-btn"
+          rounded="lg"
+          @click="handleLogout"
+          block
+          v-if="!modelValue"
+        >
+          <span class="pr-3">Déconnexion</span>
+          <icon-logout2 color="#e74c3c" size="24" />
+        </v-btn>
+        <v-btn
+          variant="tonal"
           color="error"
           class="logout-btn"
           @click="handleLogout"
+          rounded="lg"
+          icon
           block
+          v-else
         >
-          Déconnexion
+          <icon-logout2 color="#e74c3c" size="24" />
         </v-btn>
       </div>
     </template>
@@ -69,13 +105,21 @@ import name from "@/assets/images/name.svg";
 import {
   IconLayoutCollage,
   IconUsers,
-  IconCalendarTime,
   IconMapPin2,
   IconChartDots,
   IconSettings,
+  IconLogout2,
 } from "@tabler/icons-vue";
 
+type StateType = {
+  modelValue: boolean;
+};
+
+const props = defineProps<StateType>();
+
 const router = useRouter();
+
+const emit = defineEmits(["update:modelValue"]);
 
 const navItems = [
   {
@@ -109,6 +153,12 @@ const navItems = [
     to: "/client/profile",
   },
 ];
+
+// Variables reactives
+const modelValue = computed({
+  get: () => props.modelValue || false,
+  set: (value) => emit("update:modelValue", value),
+});
 
 // Fonction de déconnexion (placeholder)
 const handleLogout = () => {
@@ -161,6 +211,14 @@ const handleLogout = () => {
 .nav-item {
   margin-bottom: 8px;
   font-family: "Montserrat", sans-serif;
+}
+
+.retract {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 
 .nav-title {
@@ -233,5 +291,34 @@ const handleLogout = () => {
 .logout-btn {
   text-transform: none;
   font-weight: 500;
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-slide-enter-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-slide-leave-active {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
 }
 </style>

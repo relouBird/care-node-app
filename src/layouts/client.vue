@@ -1,10 +1,10 @@
 <template>
   <v-app class="prototype">
     <!-- Sidebar pour desktop uniquement -->
-    <AppSidebar v-if="!isMobile" />
+    <AppSidebar v-if="!isMobile" v-model:model-value="retract" />
 
     <!-- Top bar pour desktop uniquement -->
-    <AppTopBar v-if="!isMobile" />
+    <AppTopBar v-if="!isMobile" v-model:model-value="retract" />
 
     <AppTopBarMobile v-if="isMobile" />
 
@@ -28,9 +28,13 @@ import AppTopBar from "@/components/layout/AppTopbar.vue";
 import AppBottomNav from "@/components/layout/AppBottomNav.vue";
 import AppTopBarMobile from "@/components/layout/AppTopBarMobile.vue";
 
-const { mobile } = useDisplay();
-const isMobile = ref(mobile.value);
+const { mobile, smAndDown, mdAndDown } = useDisplay();
 
+// Variables reactives
+const isMobile = ref(mobile.value);
+const retract = ref<boolean>(false);
+
+// Méthodes
 const updateMobile = () => {
   isMobile.value = window.innerWidth <= 600;
 };
@@ -43,6 +47,20 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateMobile);
 });
+
+// Met à jour automatiquement selon la taille écran
+// Si écran ≤ md → sidebar repliée automatiquement
+watch(
+  retract,
+  (val) => {
+    if(mdAndDown.value) {
+      retract.value = true;
+    } else {
+      retract.value = val;
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>
