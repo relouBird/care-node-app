@@ -5,7 +5,7 @@ meta:
 
 <template>
   <div class="appointments-page">
-    <h1>Rendez-vous Client</h1>
+    <h1>Localisation Client</h1>
   </div>
 </template>
 

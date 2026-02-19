@@ -21,10 +21,11 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
-    '/client/appointments': RouteRecordInfo<'/client/appointments', '/client/appointments', Record<never, never>, Record<never, never>>,
     '/client/dashboard': RouteRecordInfo<'/client/dashboard', '/client/dashboard', Record<never, never>, Record<never, never>>,
+    '/client/map': RouteRecordInfo<'/client/map', '/client/map', Record<never, never>, Record<never, never>>,
     '/client/patients': RouteRecordInfo<'/client/patients', '/client/patients', Record<never, never>, Record<never, never>>,
     '/client/profile': RouteRecordInfo<'/client/profile', '/client/profile', Record<never, never>, Record<never, never>>,
+    '/client/stats': RouteRecordInfo<'/client/stats', '/client/stats', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -50,12 +51,12 @@ declare module 'vue-router/auto-routes' {
       routes: '/auth/login'
       views: never
     }
-    'src/pages/client/appointments.vue': {
-      routes: '/client/appointments'
-      views: never
-    }
     'src/pages/client/dashboard.vue': {
       routes: '/client/dashboard'
+      views: never
+    }
+    'src/pages/client/map.vue': {
+      routes: '/client/map'
       views: never
     }
     'src/pages/client/patients.vue': {
@@ -64,6 +65,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/client/profile.vue': {
       routes: '/client/profile'
+      views: never
+    }
+    'src/pages/client/stats.vue': {
+      routes: '/client/stats'
       views: never
     }
   }

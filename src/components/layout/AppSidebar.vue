@@ -1,21 +1,13 @@
 <template>
-  <v-navigation-drawer
-    permanent
-    class="sidebar"
-    width="280"
-    elevation="0"
-  >
+  <v-navigation-drawer permanent class="sidebar" width="280" elevation="0">
     <!-- Logo et titre -->
     <div class="sidebar-header">
-      <div class="logo-container">
-        <v-img
-          :src="logo"
-          alt="Care Node"
-          width="40"
-          class="logo"
-        />
+      <div>
+        <v-img :src="logo" alt="Care Node" width="50" class="" />
       </div>
-      <h2 class="app-title">CARE NODE</h2>
+      <div>
+        <v-img :src="name" alt="Care Node Name" width="145" class="" />
+      </div>
     </div>
 
     <v-divider class="my-4" />
@@ -31,7 +23,7 @@
         class="nav-item"
       >
         <template v-slot:prepend>
-          <v-icon :icon="item.icon" size="24" />
+          <component :is="item.icon" :size="25" class="nav-icon ml-1 mr-3" />
         </template>
         <v-list-item-title class="nav-title">
           {{ item.label }}
@@ -50,7 +42,7 @@
             <v-icon icon="mdi-account" />
           </v-avatar>
           <div class="user-details">
-            <div class="user-name">Dr. Jean Dupont</div>
+            <div class="user-name">Super Admin</div>
             <div class="user-role">Administrateur</div>
           </div>
         </div>
@@ -61,6 +53,7 @@
           prepend-icon="mdi-logout"
           color="error"
           class="logout-btn"
+          @click="handleLogout"
           block
         >
           Déconnexion
@@ -71,46 +64,58 @@
 </template>
 
 <script setup lang="ts">
-import logo from "@/assets/images/logo.svg";
+import logo from "@/assets/images/logo-strong.svg";
+import name from "@/assets/images/name.svg";
+import {
+  IconLayoutCollage,
+  IconUsers,
+  IconCalendarTime,
+  IconMapPin2,
+  IconChartDots,
+  IconSettings,
+} from "@tabler/icons-vue";
+
+const router = useRouter();
 
 const navItems = [
   {
-    label: 'Tableau de bord',
-    icon: 'mdi-view-dashboard',
-    value: 'dashboard',
-    to: '/dashboard'
+    label: "Tableau de bord",
+    icon: IconLayoutCollage,
+    value: "dashboard",
+    to: "/client/dashboard",
   },
   {
-    label: 'Patients',
-    icon: 'mdi-account-multiple',
-    value: 'patients',
-    to: '/patients'
+    label: "Patients",
+    icon: IconUsers,
+    value: "patients",
+    to: "/client/patients",
   },
   {
-    label: 'Rendez-vous',
-    icon: 'mdi-calendar-clock',
-    value: 'appointments',
-    to: '/appointments'
+    label: "Localisation",
+    icon: IconMapPin2,
+    value: "map",
+    to: "/client/map",
   },
   {
-    label: 'Médicaments',
-    icon: 'mdi-pill',
-    value: 'medications',
-    to: '/medications'
+    label: "Statistiques",
+    icon: IconChartDots,
+    value: "stats",
+    to: "/client/stats",
   },
   {
-    label: 'Statistiques',
-    icon: 'mdi-chart-line',
-    value: 'stats',
-    to: '/stats'
+    label: "Paramètres",
+    icon: IconSettings,
+    value: "settings",
+    to: "/client/profile",
   },
-  {
-    label: 'Paramètres',
-    icon: 'mdi-cog',
-    value: 'settings',
-    to: '/settings'
-  }
-]
+];
+
+// Fonction de déconnexion (placeholder)
+const handleLogout = () => {
+  // Logique de déconnexion ici (ex: clear tokens, redirect, etc.)
+  console.log("Déconnexion en cours...");
+  router.push("/auth/login"); // Redirige vers la page de login après déconnexion
+};
 </script>
 
 <style scoped>
@@ -121,16 +126,18 @@ const navItems = [
 
 /* Header */
 .sidebar-header {
-  padding: 24px 20px;
+  padding: 0;
+  padding-top: 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
 }
 
 .logo-container {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #13875d 0%, #1ba876 100%);
+  background: red;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -138,12 +145,8 @@ const navItems = [
   padding: 8px;
 }
 
-.logo {
-  filter: brightness(0) invert(1);
-}
-
 .app-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -157,12 +160,16 @@ const navItems = [
 
 .nav-item {
   margin-bottom: 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .nav-title {
   font-size: 15px;
   font-weight: 500;
+}
+
+.nav-icon {
+  transition: all 0.3s ease;
 }
 
 :deep(.v-list-item--active) {
@@ -215,7 +222,7 @@ const navItems = [
   font-size: 14px;
   font-weight: 600;
   color: #2c3e50;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .user-role {

@@ -6,9 +6,12 @@
     <!-- Top bar pour desktop uniquement -->
     <AppTopBar v-if="!isMobile" />
 
+    <AppTopBarMobile v-if="isMobile" />
+
     <!-- Contenu principal -->
     <v-main class="main-content" :class="{ 'mobile-padding': isMobile }">
       <v-container fluid class="content-container">
+        <div :class="[isMobile ? 'dashboard-header' : '']"></div>
         <router-view />
       </v-container>
     </v-main>
@@ -23,6 +26,7 @@ import { useDisplay } from "vuetify";
 import AppSidebar from "@/components/layout/AppSidebar.vue";
 import AppTopBar from "@/components/layout/AppTopbar.vue";
 import AppBottomNav from "@/components/layout/AppBottomNav.vue";
+import AppTopBarMobile from "@/components/layout/AppTopBarMobile.vue";
 
 const { mobile } = useDisplay();
 const isMobile = ref(mobile.value);
@@ -42,14 +46,19 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.dashboard-header {
+  height: 4.75rem;
+}
+
 .prototype {
+  width: 100%;
   position: relative;
 }
 
 .main-content {
-  background: #f4f6f9;
   height: 100vh;
   overflow-y: scroll;
+  background: linear-gradient(135deg, #e4fcf4 0%, #f0fdf9 100%) !important;
 }
 
 .mobile-padding {

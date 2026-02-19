@@ -69,12 +69,12 @@ watch(
           :icon="icon"
           color="#13875d"
           size="24"
-          :class="{ 'spinning': icon === 'mdi-loading' }"
+          :class="{ spinning: icon === 'mdi-loading' }"
         />
       </div>
 
       <!-- Texte -->
-      <div class="toast-text">
+      <div class="toast-text pt-1">
         <div class="toast-title font-define">{{ title }}</div>
         <div v-if="message" class="toast-message font-define">
           {{ message }}
@@ -93,11 +93,7 @@ watch(
 
     <!-- Progress bar (uniquement en mode loading) -->
     <div v-if="!error && icon === 'mdi-loading'" class="toast-progress">
-      <v-progress-linear
-        indeterminate
-        color="#13875d"
-        height="3"
-      />
+      <v-progress-linear indeterminate color="#13875d" height="3" />
     </div>
   </v-snackbar>
 </template>
@@ -152,8 +148,12 @@ watch(
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Texte */
@@ -183,6 +183,7 @@ watch(
   flex-shrink: 0;
   opacity: 0.6;
   transition: opacity 0.2s;
+  color: #7f8c8d;
 }
 
 .toast-close:hover {

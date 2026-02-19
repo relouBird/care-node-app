@@ -17,7 +17,7 @@ import {
   IconUser,
   IconHeartbeat,
   IconLayoutCollage,
-  IconFirstAidKit,
+  IconMapPin2,
 } from '@tabler/icons-vue'
 
 const route = useRoute()
@@ -36,10 +36,10 @@ const navItems = [
     to: '/client/patients',
   },
   {
-    label: 'Rendez-vous',
-    icon: IconFirstAidKit,
-    value: 'appointments',
-    to: '/client/appointments',
+    label: 'Localisation',
+    icon: IconMapPin2,
+    value: 'Map',
+    to: '/client/map',
   },
   {
     label: 'Profil',
