@@ -9,7 +9,7 @@
     <AppTopBarMobile v-if="isMobile" />
 
     <!-- Contenu principal -->
-    <v-main class="main-content" :class="{ 'mobile-padding': isMobile }">
+    <v-main class="py-0 main-content" :class="{ 'mobile-padding': isMobile }">
       <v-container fluid class="content-container">
         <div :class="[isMobile ? 'dashboard-header' : '']"></div>
         <router-view />
@@ -56,12 +56,15 @@ onUnmounted(() => {
 }
 
 .main-content {
-  height: 100vh;
+  height: calc(100vh - 4.75rem);
+  margin-top: 4.75rem;
   overflow-y: scroll;
   background: linear-gradient(135deg, #e4fcf4 0%, #f0fdf9 100%) !important;
 }
 
 .mobile-padding {
+  height: 100vh;
+  margin-top: 0;
   padding-bottom: 70px !important;
 }
 
