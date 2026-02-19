@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { IconBell, IconLogout2, IconNotification } from "@tabler/icons-vue";
+import { IconBell, IconLogout2 } from "@tabler/icons-vue";
 const router = useRouter();
 
 // Nom de l'utilisateur (à récupérer depuis votre store/auth)
