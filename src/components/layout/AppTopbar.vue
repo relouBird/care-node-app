@@ -40,13 +40,27 @@
 <script setup lang="ts">
 import { IconMenu2, IconBellRinging2, IconUserFilled } from "@tabler/icons-vue";
 
-const route = useRoute();
+type StateType = {
+  modelValue: boolean;
+};
+
+const props = defineProps<StateType>();
+
+const emit = defineEmits(["update:modelValue"]);
+
+// Variables reactives
+const modelValue = computed({
+  get: () => props.modelValue || false,
+  set: (value) => emit("update:modelValue", value),
+});
+
 const search = ref("");
 
 // Méthode pour basculer la sidebar (à implémenter selon votre logique)
 const toggleSidebar = () => {
   // Émettre un événement ou utiliser un store pour contrôler la visibilité de la sidebar
-  console.log("Toggle sidebar");
+  modelValue.value = !modelValue.value;
+    console.log("Toggle sidebar, nouvelle valeur:", modelValue.value);
 };
 </script>
 
