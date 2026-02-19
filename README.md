@@ -91,7 +91,7 @@ I. 2 menus:
 II. Les informations:
 ** nom d'utilisateur
 ** mot de passe
-** parametres (frequence cardiaque, taux d'oxygène, temperature, temperature ambiante)
+** parametres (frequence cardiaque, taux d'oxygène, temperature, temperature ambiante, localisation malade)
 ** urgence (urgence point de vue distance, urgence coté santé)
 
 

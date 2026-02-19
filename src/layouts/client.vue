@@ -77,7 +77,6 @@ watch(
   height: calc(100vh - 4.75rem);
   margin-top: 4.75rem;
   overflow-y: scroll;
-  background: linear-gradient(135deg, #e4fcf4 0%, #f0fdf9 100%) !important;
 }
 
 .mobile-padding {

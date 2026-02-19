@@ -13,41 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  IconUser,
-  IconHeartbeat,
-  IconLayoutCollage,
-  IconMapPin2,
-} from '@tabler/icons-vue'
+import { mobileNavigationItems } from '@/constants/navigation.constant'
 
+// Gere les routes actives pour le menu de navigation mobile
 const route = useRoute()
 
-const navItems = [
-  {
-    label: 'Accueil',
-    icon: IconLayoutCollage,
-    value: 'dashboard',
-    to: '/client/dashboard',
-  },
-  {
-    label: 'Patients',
-    icon: IconHeartbeat,
-    value: 'patients',
-    to: '/client/patients',
-  },
-  {
-    label: 'Localisation',
-    icon: IconMapPin2,
-    value: 'Map',
-    to: '/client/map',
-  },
-  {
-    label: 'Profil',
-    icon: IconUser,
-    value: 'profile',
-    to: '/client/profile',
-  },
-]
+// Menu de navigations pour mobile
+const navItems = shallowRef(mobileNavigationItems)
 
 const isActive = (path: string) => {
   return route.path.startsWith(path)

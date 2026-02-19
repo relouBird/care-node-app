@@ -102,12 +102,8 @@
 <script setup lang="ts">
 import logo from "@/assets/images/logo-strong.svg";
 import name from "@/assets/images/name.svg";
+import { desktopNavigationItems } from "@/constants/navigation.constant";
 import {
-  IconLayoutCollage,
-  IconUsers,
-  IconMapPin2,
-  IconChartDots,
-  IconSettings,
   IconLogout2,
 } from "@tabler/icons-vue";
 
@@ -121,38 +117,7 @@ const router = useRouter();
 
 const emit = defineEmits(["update:modelValue"]);
 
-const navItems = [
-  {
-    label: "Tableau de bord",
-    icon: IconLayoutCollage,
-    value: "dashboard",
-    to: "/client/dashboard",
-  },
-  {
-    label: "Patients",
-    icon: IconUsers,
-    value: "patients",
-    to: "/client/patients",
-  },
-  {
-    label: "Localisation",
-    icon: IconMapPin2,
-    value: "map",
-    to: "/client/map",
-  },
-  {
-    label: "Statistiques",
-    icon: IconChartDots,
-    value: "stats",
-    to: "/client/stats",
-  },
-  {
-    label: "Paramètres",
-    icon: IconSettings,
-    value: "settings",
-    to: "/client/profile",
-  },
-];
+const navItems = shallowRef(desktopNavigationItems);
 
 // Variables reactives
 const modelValue = computed({

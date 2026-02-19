@@ -1,164 +1,148 @@
 <route lang="yaml">
 meta:
-  layout: client
+  layout: default
 </route>
 
 <template>
-  <div>
-    <v-row>
-      <!-- Statistiques en cartes -->
-      <v-col cols="12" md="3" v-for="stat in stats" :key="stat.title">
-        <v-card class="stat-card shadow-boxed" rounded="xl">
-          <v-card-text>
-            <div class="stat-icon" :style="{ background: stat.color }">
-              <v-icon :icon="stat.icon" color="white" size="24" />
-            </div>
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-title">{{ stat.title }}</div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="dashboard-header mb-6">
+      <div>
+        <h1 class="dashboard-title">Vos Métriques de Santé</h1>
+        <p class="dashboard-subtitle">Dernière mise à jour : Aujourd'hui</p>
+      </div>
+      <v-btn
+        variant="text"
+        color="primary"
+        prepend-icon="mdi-filter-variant"
+        class="filter-btn"
+      >
+        Dernières
+        <v-icon icon="mdi-chevron-down" size="20" class="ml-1" />
+      </v-btn>
+    </div>
 
-      <!-- Graphique ou autres contenus -->
-      <v-col cols="12" md="8">
-        <v-card rounded="xl" class="shadow-boxed" elevation="2">
-          <v-card-title class="card-title"> Activité récente </v-card-title>
-          <v-card-text>
-            <div class="empty-state">
-              <v-icon icon="mdi-chart-line" size="64" color="primary" />
-              <p class="mt-4">Vos graphiques d'activité apparaîtront ici</p>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <!-- Liste des patients récents -->
-      <v-col cols="12" md="4">
-        <v-card rounded="xl" class="shadow-boxed" elevation="2">
-          <v-card-title class="card-title"> Patients récents </v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-item v-for="i in 5" :key="i" class="patient-item">
-                <template v-slot:prepend>
-                  <v-avatar color="primary" size="40">
-                    <span class="text-white">{{ i }}</span>
-                  </v-avatar>
-                </template>
-                <v-list-item-title>Patient {{ i }}</v-list-item-title>
-                <v-list-item-subtitle
-                  >Dernière visite: {{ i }} jour(s)</v-list-item-subtitle
-                >
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <!-- Rendez-vous du jour -->
-      <v-col cols="12">
-        <v-card class="shadow-boxed" rounded="xl" elevation="2">
-          <v-card-title class="card-title"> Rendez-vous du jour </v-card-title>
-          <v-card-text>
-            <v-table>
-              <thead>
-                <tr>
-                  <th>Heure</th>
-                  <th>Patient</th>
-                  <th>Type</th>
-                  <th>Statut</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="i in 3" :key="i">
-                  <td>{{ 8 + i }}:00</td>
-                  <td>Patient {{ i }}</td>
-                  <td>Consultation</td>
-                  <td>
-                    <v-chip color="success" size="small"> Confirmé </v-chip>
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
-          </v-card-text>
-        </v-card>
+    <!-- Métriques de santé -->
+    <v-row class="metrics-grid">
+      <v-col
+        v-for="metric in healthMetrics"
+        :key="metric.label"
+        cols="12"
+        sm="6"
+        md="6"
+        lg="6"
+      >
+        <health-metric-card
+          :label="metric.label"
+          :value="metric.value"
+          :unit="metric.unit"
+          :icon="metric.icon"
+          :icon-color="metric.iconColor"
+          :icon-background="metric.iconBackground"
+          :chart-color="metric.chartColor"
+          :chart-data="metric.chartData"
+        />
       </v-col>
     </v-row>
+
+    <!-- Température ambiante et Localisation -->
+<v-row class="mt-4">
+  <v-col cols="12" md="6">
+    <evaluation-card
+      :temperature="22"
+      :distance="2.5"
+      :heart-rate="75"
+      :oxygen="97"
+      :body-temp="36.7"
+    />
+  </v-col>
+
+  <v-col cols="12" md="6">
+    <location-statement-card
+      address="123 Rue de la Santé, Douala"
+      :distance="2.5"
+      :estimated-time="8"
+      @open-map="openMap"
+    />
+  </v-col>
+</v-row>
+
   </div>
 </template>
 
 <script setup lang="ts">
-const stats = [
-  {
-    title: "Patients totaux",
-    value: "248",
-    icon: "mdi-account-multiple",
-    color: "linear-gradient(135deg, #13875d 0%, #1ba876 100%)",
-  },
-  {
-    title: "Rendez-vous",
-    value: "12",
-    icon: "mdi-calendar-clock",
-    color: "linear-gradient(135deg, #3498db 0%, #5dade2 100%)",
-  },
-  {
-    title: "En attente",
-    value: "5",
-    icon: "mdi-clock-outline",
-    color: "linear-gradient(135deg, #f39c12 0%, #f5b041 100%)",
-  },
-  {
-    title: "Terminés",
-    value: "7",
-    icon: "mdi-check-circle",
-    color: "linear-gradient(135deg, #27ae60 0%, #52be80 100%)",
-  },
-];
+import HealthMetricCard from "@/components/dashboard/HealthMetricCard.vue";
+import EvaluationCard from "@/components/dashboard/EvaluationCard.vue";
+import LocationStatementCard from "@/components/dashboard/LocationStatementCard.vue";
+
+import {
+  dashboardMetrics,
+} from "@/constants/dashboard.constant";
+
+const router = useRouter()
+
+// Données de démonstration pour les métriques de santé et les objectifs quotidiens
+const healthMetrics = ref(dashboardMetrics);
+
+// Méthodes utiles
+const openMap = () => {
+  console.log('Ouvrir la carte')
+  router.push('/client/map')
+}
 </script>
 
 <style scoped>
-
-.stat-card {
-  transition: transform 0.2s;
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.stat-card:hover {
-  transform: translateY(-4px);
-}
-
-.shadow-boxed {
-  box-shadow:
-    0 -4px 20px rgba(0, 0, 0, 0.04),
-    0 4px 20px rgba(0, 0, 0, 0.04) !important;
-}
-
-.stat-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+/* Header */
+.dashboard-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.stat-value {
-  font-size: 32px;
+.dashboard-title {
+  font-size: 28px;
   font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 4px;
   font-family: "Montserrat", sans-serif;
+  margin-bottom: 4px;
 }
 
-.stat-title {
+.dashboard-subtitle {
   font-size: 14px;
   color: #7f8c8d;
+}
+
+.filter-btn {
+  text-transform: none;
   font-weight: 500;
+}
+
+/* Grille des métriques */
+.metrics-grid {
+  margin-bottom: 0;
+}
+
+/* Cartes de stats */
+.stats-card {
+  background: white;
+  border: 1px solid #f0f0f0;
+  height: 100%;
 }
 
 .card-title {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .empty-state {
@@ -167,11 +151,54 @@ const stats = [
   color: #7f8c8d;
 }
 
+/* Goals list */
+.goals-list {
+  padding: 0;
+}
+
+.goal-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 0;
+}
+
+.goal-item:last-child {
+  border-bottom: none;
+}
+
+.goal-title {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Patients list */
 .patient-item {
-  border-bottom: 1px solid #e5eaef;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 0;
 }
 
 .patient-item:last-child {
   border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .dashboard-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .filter-btn {
+    align-self: stretch;
+  }
 }
 </style>

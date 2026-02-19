@@ -25,7 +25,7 @@ export const LIGHT_CARE_NODE_THEME: ThemeTypes = {
         borderColor: '#c8f0e3',
         inputBorder: '#a8e6d1',
         containerBg: '#ffffff',
-        background: '#E4FCF4',
+        background: '#F5FEFB',
         hoverColor: '#f0fdf9',
         transparent: '#ffffff00',
         surface: '#ffffff',

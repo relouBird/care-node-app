@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/client/dashboard': RouteRecordInfo<'/client/dashboard', '/client/dashboard', Record<never, never>, Record<never, never>>,
+    '/client/dashboardV0': RouteRecordInfo<'/client/dashboardV0', '/client/dashboardV0', Record<never, never>, Record<never, never>>,
     '/client/map': RouteRecordInfo<'/client/map', '/client/map', Record<never, never>, Record<never, never>>,
     '/client/patients': RouteRecordInfo<'/client/patients', '/client/patients', Record<never, never>, Record<never, never>>,
     '/client/profile': RouteRecordInfo<'/client/profile', '/client/profile', Record<never, never>, Record<never, never>>,
@@ -53,6 +54,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/client/dashboard.vue': {
       routes: '/client/dashboard'
+      views: never
+    }
+    'src/pages/client/dashboardV0.vue': {
+      routes: '/client/dashboardV0'
       views: never
     }
     'src/pages/client/map.vue': {

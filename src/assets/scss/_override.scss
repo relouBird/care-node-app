@@ -28,3 +28,11 @@ html {
     font-size: $font-size-root;
     line-height: 1.75rem;
 }
+
+
+// 👉 Special CSS
+.shadow-boxed {
+  box-shadow:
+    0 -4px 20px rgba(0, 0, 0, 0.02),
+    0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
