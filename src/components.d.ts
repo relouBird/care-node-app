@@ -11,6 +11,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Account: typeof import('./components/settings/Account.vue')['default']
+    AlertMonitoring: typeof import('./components/settings/AlertMonitoring.vue')['default']
     AppBottomNav: typeof import('./components/layout/AppBottomNav.vue')['default']
     AppFooter: typeof import('./components/layout/AppFooter.vue')['default']
     AppFooter2: typeof import('./components/AppFooter2.vue')['default']
@@ -18,13 +20,19 @@ declare module 'vue' {
     AppSidebr: typeof import('./components/layout/AppSidebr.vue')['default']
     AppTopbar: typeof import('./components/layout/AppTopbar.vue')['default']
     AppTopBarMobile: typeof import('./components/layout/AppTopBarMobile.vue')['default']
+    ChangeDetailsProfile: typeof import('./components/settings/ChangeDetailsProfile.vue')['default']
+    ChangeSecurityProfile: typeof import('./components/settings/ChangeSecurityProfile.vue')['default']
     copy: typeof import('./components/AppFooter copy.vue')['default']
     EvaluationCard: typeof import('./components/dashboard/EvaluationCard.vue')['default']
     HealthMetricCard: typeof import('./components/dashboard/HealthMetricCard.vue')['default']
+    HealthParameter: typeof import('./components/settings/HealthParameter.vue')['default']
+    HealthThresholdParameter: typeof import('./components/settings/HealthThresholdParameter.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     LocationStatementCard: typeof import('./components/dashboard/LocationStatementCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectProfile: typeof import('./components/settings/SelectProfile.vue')['default']
+    SelectProfileV1: typeof import('./components/settings/SelectProfileV1.vue')['default']
     Toast: typeof import('./components/ui/toast.vue')['default']
     ToastLoading: typeof import('./components/ui/toast-loading.vue')['default']
     ToastNotifications: typeof import('./components/ui/toast-notifications.vue')['default']
