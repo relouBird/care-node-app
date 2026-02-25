@@ -29,6 +29,7 @@ declare module 'vue' {
     HealthThresholdParameter: typeof import('./components/settings/HealthThresholdParameter.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     LocationStatementCard: typeof import('./components/dashboard/LocationStatementCard.vue')['default']
+    MapView: typeof import('./components/map/MapView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectProfile: typeof import('./components/settings/SelectProfile.vue')['default']
