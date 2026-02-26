@@ -103,11 +103,23 @@
 </template>
 
 <script setup lang="ts">
+// Les constantes
 import {
+  assistantLocate,
+  patientAssistantGeometry,
+  patientLocate,
+} from "@/constants/map.constant";
+
+// Les helpers
+import {
+  calculateMapDistance,
+  drawRouteOnMap,
   MapGenerateCoordinates,
   MapPinByColor,
   MarkerPinCreator,
 } from "@/helpers/map.helper";
+
+// Les methodes et données liées à la carte
 import maplibregl from "maplibre-gl";
 import type { StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -126,13 +138,19 @@ const mapInstance = ref<any | null>(null);
 const isPitched = ref(false);
 
 // Position du patient (Douala, Cameroun)
-const patientLocation = computed(() => MapGenerateCoordinates([9.7338423, 4.0814981]));
-const assistantLocation = computed(() => MapGenerateCoordinates([9.741, 4.085]));
+const patientLocation = computed(() => MapGenerateCoordinates(patientLocate));
+const assistantLocation = computed(() =>
+  MapGenerateCoordinates(assistantLocate),
+);
 
 // Données
-const distance = ref(2.5);
+const distance = computed(() =>
+  calculateMapDistance(
+    patientLocation.value.coordinates,
+    assistantLocation.value.coordinates,
+  ).toFixed(2),
+);
 const estimatedTime = ref(8);
-
 
 onMounted(() => {
   if (!mapContainer.value) return;
@@ -162,7 +180,7 @@ onMounted(() => {
     container: mapContainer.value,
     style: mapStyle,
     center: patientLocation.value.coordinates,
-    zoom: props.isMobile ? 13 : 14,
+    zoom: props.isMobile ? 13 : 15,
     pitch: 0,
   });
 
@@ -186,6 +204,13 @@ onMounted(() => {
 
   patientMarker.addTo(mapInstance.value);
   assistantMarker.addTo(mapInstance.value);
+
+  // Dessiner la route entre les deux points
+  mapInstance.value?.on("load", () => {
+    const { source, layer } = drawRouteOnMap(patientAssistantGeometry);
+    mapInstance.value.addSource("route", source);
+    mapInstance.value.addLayer(layer);
+  });
 });
 
 onUnmounted(() => {

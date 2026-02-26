@@ -1,4 +1,8 @@
-import type { LocationType, MapMarker } from "@/types/map.type";
+import type {
+  LineStringGeometry,
+  LocationType,
+  MapMarker,
+} from "@/types/map.type";
 import maplibregl from "maplibre-gl";
 
 // Fonction pour créer un pin personnalisé avec une couleur spécifique
@@ -41,10 +45,11 @@ export const MapGenerateCoordinates = ([lat, lng]: LocationType): MapMarker => {
   return { coordinates: [0, 0], location: "0°N, 0°E" };
 };
 
+// Fonction pour créer un marker avec un pin personnalisé et une popup
 export const MarkerPinCreator = (
   pin: HTMLDivElement,
   location: MapMarker,
-  message ?: string,
+  message?: string,
   color?: string,
 ) => {
   const marker = new maplibregl.Marker({ element: pin, anchor: "bottom" })
@@ -75,4 +80,63 @@ export const MarkerPinCreator = (
     );
 
   return marker;
+};
+
+// Fonction qui permet de calculer la distance entre deux points géographiques en utilisant la formule de Haversine
+export const calculateMapDistance = (
+  coord1: LocationType,
+  coord2: LocationType,
+): number => {
+  const [lat1, lon1] = coord1;
+  const [lat2, lon2] = coord2;
+  if (isNaN(lat1) || isNaN(lon1) || isNaN(lat2) || isNaN(lon2)) {
+    return 0;
+  }
+  const R = 6371; // km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+// Fonction pour dessiner la route entre deux points sur la carte
+export const drawRouteOnMap = (
+  geometry: LineStringGeometry,
+  color: string = "#13875dbb",
+) => {
+  const source = {
+    type: "geojson",
+    data: {
+      type: "Feature",
+      properties: {},
+      geometry: geometry,
+    },
+  };
+
+  const layer = {
+    id: "route",
+    type: "line",
+    source: "route",
+    layout: {
+      "line-join": "round",
+      "line-cap": "round",
+    },
+    paint: {
+      "line-color": color,
+      "line-width": 4,
+    },
+  };
+
+  return {
+    source,
+    layer,
+  };
 };
