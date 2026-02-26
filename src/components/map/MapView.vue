@@ -28,7 +28,7 @@
           </div>
 
           <p v-if="isMobile">
-            <span class="info-text">{{ coordinates }}</span>
+            <span class="info-text">{{ patientLocation.location }}</span>
           </p>
         </div>
 
@@ -36,7 +36,7 @@
         <div class="info-items" :class="{ 'mobile-items': isMobile }">
           <div class="info-chip" v-if="!isMobile">
             <v-icon icon="mdi-map-marker" color="primary" size="18" />
-            <span class="info-text">{{ coordinates }}</span>
+            <span class="info-text">{{ patientLocation.location }}</span>
           </div>
 
           <div class="info-chip">
@@ -103,8 +103,25 @@
 </template>
 
 <script setup lang="ts">
+// Les constantes
+import {
+  assistantLocate,
+  patientAssistantGeometry,
+  patientLocate,
+} from "@/constants/map.constant";
+
+// Les helpers
+import {
+  calculateMapDistance,
+  drawRouteOnMap,
+  MapGenerateCoordinates,
+  MapPinByColor,
+  MarkerPinCreator,
+} from "@/helpers/map.helper";
+
+// Les methodes et données liées à la carte
 import maplibregl from "maplibre-gl";
-import type { Map, StyleSpecification } from "maplibre-gl";
+import type { StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 interface Props {
@@ -121,18 +138,19 @@ const mapInstance = ref<any | null>(null);
 const isPitched = ref(false);
 
 // Position du patient (Douala, Cameroun)
-const patientLocation: [number, number] = [9.7338423, 4.0814981];
+const patientLocation = computed(() => MapGenerateCoordinates(patientLocate));
+const assistantLocation = computed(() =>
+  MapGenerateCoordinates(assistantLocate),
+);
 
 // Données
-const distance = ref(2.5);
+const distance = computed(() =>
+  calculateMapDistance(
+    patientLocation.value.coordinates,
+    assistantLocation.value.coordinates,
+  ).toFixed(2),
+);
 const estimatedTime = ref(8);
-
-const coordinates = computed(() => {
-  if (patientLocation[1] && patientLocation[0]) {
-    return `${patientLocation[1].toFixed(4)}°N, ${patientLocation[0].toFixed(4)}°E`;
-  }
-  return `0°N, 0°E`;
-});
 
 onMounted(() => {
   if (!mapContainer.value) return;
@@ -161,58 +179,38 @@ onMounted(() => {
   mapInstance.value = new maplibregl.Map({
     container: mapContainer.value,
     style: mapStyle,
-    center: patientLocation,
-    zoom: props.isMobile ? 13 : 14,
+    center: patientLocation.value.coordinates,
+    zoom: props.isMobile ? 13 : 15,
     pitch: 0,
   });
 
   // Pin personnalisé style Maps
-  const pinEl = document.createElement("div");
-  pinEl.innerHTML = `
-<svg width="32" height="40" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
-  <!-- Ombre -->
-  <ellipse cx="20" cy="48" rx="8" ry="2" fill="rgba(0,0,0,0.2)"/>
-  <!-- Pin -->
-  <path d="M20 0 C9 0 0 9 0 20 C0 35 20 50 20 50 C20 50 40 35 40 20 C40 9 31 0 20 0 Z"
-        fill="#13875d" stroke="white" stroke-width="2"/>
-  <!-- Point central blanc -->
-  <circle cx="20" cy="20" r="8" fill="white"/>
-  <!-- Icône -->
-  <circle cx="20" cy="20" r="5" fill="#13875d"/>
-</svg>
-  `;
-  pinEl.style.width = "40px";
-  pinEl.style.height = "50px";
-  pinEl.style.cursor = "pointer";
+  const pinEl = MapPinByColor("#13875d");
+  const pinEl2th = MapPinByColor("#13875d");
 
-  const marker = new maplibregl.Marker({ element: pinEl, anchor: "bottom" })
-    .setLngLat(patientLocation)
-    .setPopup(
-      new maplibregl.Popup({
-        offset: 25,
-        closeButton: false,
-      }).setHTML(`
-        <div style="padding: 12px; min-width: 150px;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-            <div style="width: 32px; height: 32px; background: #13875d; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
-            <div>
-              <div style="font-weight: 600; font-size: 14px; color: #2c3e50;">Patient</div>
-              <div style="font-size: 11px; color: #7f8c8d;">Douala, Cameroun</div>
-            </div>
-          </div>
-          <div style="font-size: 12px; color: #7f8c8d; padding-left: 40px;">
-            ${coordinates.value}
-          </div>
-        </div>
-      `),
-    );
+  const patientMarker = MarkerPinCreator(
+    pinEl,
+    patientLocation.value,
+    "Patient",
+    "#13875d",
+  );
 
-  marker.addTo(mapInstance.value);
+  const assistantMarker = MarkerPinCreator(
+    pinEl2th,
+    assistantLocation.value,
+    "Assistant",
+    "#13875d",
+  );
+
+  patientMarker.addTo(mapInstance.value);
+  assistantMarker.addTo(mapInstance.value);
+
+  // Dessiner la route entre les deux points
+  mapInstance.value?.on("load", () => {
+    const { source, layer } = drawRouteOnMap(patientAssistantGeometry);
+    mapInstance.value.addSource("route", source);
+    mapInstance.value.addLayer(layer);
+  });
 });
 
 onUnmounted(() => {
