@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
+    '/auth/register': RouteRecordInfo<'/auth/register', '/auth/register', Record<never, never>, Record<never, never>>,
     '/client/dashboard': RouteRecordInfo<'/client/dashboard', '/client/dashboard', Record<never, never>, Record<never, never>>,
     '/client/map': RouteRecordInfo<'/client/map', '/client/map', Record<never, never>, Record<never, never>>,
     '/client/patients': RouteRecordInfo<'/client/patients', '/client/patients', Record<never, never>, Record<never, never>>,
@@ -49,6 +50,10 @@ declare module 'vue-router/auto-routes' {
     }
     'src/pages/auth/login.vue': {
       routes: '/auth/login'
+      views: never
+    }
+    'src/pages/auth/register.vue': {
+      routes: '/auth/register'
       views: never
     }
     'src/pages/client/dashboard.vue': {

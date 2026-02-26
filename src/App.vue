@@ -25,20 +25,6 @@ watch(store.visible, (newVal) => {
   </v-app>
 
   <div class="bottom">
-    <!-- <v-alert
-      v-model="store.visible.value"
-      :close-label="store.color.value"
-      :color="store.color.value"
-      class="animate-notif"
-      theme="dark"
-      border
-      closable
-      @click:close="handleClose"
-    >
-      {{ store.color.value == "error" ? "Error :" : "" }}
-      {{ store.message.value }}
-    </v-alert> -->
-
     <ToastNotifications
       v-model="store.visible.value"
       :title="store.message.value ?? ''"

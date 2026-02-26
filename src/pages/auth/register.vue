@@ -28,12 +28,16 @@ meta:
         <div class="text-center mb-8">
           <h2 class="text-h4 font-weight-medium mb-1 font-define">Bienvenue</h2>
           <p class="text-body-1 text-medium-emphasis">
-            Connectez-vous à votre compte
+            Enregistrez-vous pour créer votre compte
           </p>
         </div>
 
         <!-- Formulaire -->
-        <v-form ref="loginForm" v-model="valid" @submit.prevent="handleLogin">
+        <v-form
+          ref="loginForm"
+          v-model="valid"
+          @submit.prevent="handleRegister"
+        >
           <!-- Email -->
           <v-text-field
             v-model="email"
@@ -43,7 +47,7 @@ meta:
             variant="outlined"
             :rules="usernameRules"
             color="primary"
-            class="mb-4 rounded-xl"
+            class="mb-2 rounded-xl"
             rounded="xl"
             required
           />
@@ -63,6 +67,21 @@ meta:
             @click:append-inner="showPassword = !showPassword"
           />
 
+          <!-- Confirmer le mot de passe -->
+          <v-text-field
+            v-model="confirmPassword"
+            label="Confirmer le mot de passe"
+            :type="showPassword ? 'text' : 'password'"
+            prepend-inner-icon="mdi-lock-outline"
+            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+            variant="outlined"
+            :rules="confirmPasswordRules"
+            color="primary"
+            class="mb-2"
+            required
+            @click:append-inner="showPassword = !showPassword"
+          />
+
           <!-- Bouton de connexion -->
           <v-btn
             type="submit"
@@ -74,24 +93,8 @@ meta:
             :disabled="!valid"
             class="mb-4 text-none rounded-xl"
           >
-            <span class="text-h6 font-weight-medium">Se connecter</span>
+            <span class="text-h6 font-weight-medium">S'enregistrer</span>
           </v-btn>
-
-          <!-- Se souvenir / Mot de passe oublié -->
-          <div class="d-flex justify-space-between align-center">
-            <p class="font-define">
-              <span>Mot de passe oublié ?</span>
-              <span class="pl-3"
-                ><router-link
-                  @click="forgotPassword"
-                  to="#"
-                  class="text-decoration-none text-body-2 text-medium-emphasis text-primary font-define"
-                >
-                  Retrouver le ici.
-                </router-link>
-              </span>
-            </p>
-          </div>
 
           <!-- Divider -->
           <div class="divider-container my-6">
@@ -119,18 +122,17 @@ meta:
             Continuer avec Google
           </v-btn>
         </v-form>
-
         <!-- S'enregistrer -->
         <div class="d-flex justify-center align-center">
           <p class="font-define">
-            <span>Pas de compte ?</span>
+            <span>Vous avez déjà un compte ?</span>
             <span class="pl-3"
               ><router-link
-                @click="handleRegister"
+                @click="handleLogin"
                 to="#"
                 class="text-decoration-none text-body-2 text-medium-emphasis text-primary font-define"
               >
-                Enregistrez-vous ici.
+                Connectez-vous ici.
               </router-link>
             </span>
           </p>
@@ -153,8 +155,8 @@ import { notify } from "@/helpers/notifications.helper";
 const router = useRouter();
 
 useSeoHead({
-  title: "Se Connecter",
-  subtitle: "Connectez-vous à votre tableau de bord",
+  title: "S'enregistrer",
+  subtitle: "Créez votre compte",
   forcePrefix: true,
 });
 
@@ -163,6 +165,7 @@ const loginForm = ref();
 const valid = ref(false);
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const showPassword = ref(false);
 const loading = ref(false);
 const toast_loading = ref(false);
@@ -180,8 +183,14 @@ const passwordRules = [
     v.length >= 6 || "Le mot de passe doit contenir au moins 6 caractères",
 ];
 
+const confirmPasswordRules = [
+  (v: string) => !!v || "Veuillez confirmer votre mot de passe",
+  (v: string) =>
+    v === password.value || "Les mots de passe ne correspondent pas",
+];
+
 // Méthodes
-const handleLogin = async () => {
+const handleRegister = async () => {
   const { valid: isValid } = await loginForm.value.validate();
 
   if (!isValid) return;
@@ -219,23 +228,9 @@ const handleLogin = async () => {
   }
 };
 
-const forgotPassword = (e: Event) => {
-  toast_loading.value = true;
-
-  setTimeout(() => {
-    toast_loading.value = false;
-    notify({
-      color: "error",
-      message: "Nothing to see here !",
-      visible: true,
-    });
-  }, 3000);
-  console.log("Mot de passe oublié");
-};
-
-const handleRegister = () => {
-  console.log("Redirection vers la page d'enregistrement");
-  router.push("/auth/register");
+const handleLogin = () => {
+  console.log("Redirection vers la page de connexion");
+  router.push("/auth/login");
 };
 </script>
 
