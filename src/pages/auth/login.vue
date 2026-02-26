@@ -109,11 +109,11 @@ meta:
             class="mb-3 text-none rounded-xl"
             prepend-icon="mdi-google"
             @click="
-              () => {
-                snackbarText = 'Fonctionnalité à venir !';
-                isError = false;
-                snackbar = true;
-              }
+              notify({
+                color: 'success',
+                message: 'Fonctionnalité à venir !',
+                visible: true,
+              })
             "
           >
             Continuer avec Google
@@ -121,14 +121,6 @@ meta:
         </v-form>
       </v-card-text>
     </v-card>
-
-    <!-- Snackbar pour les notifications -->
-    <ToastNotifications
-      v-model="snackbar"
-      :title="snackbarText"
-      :icon="'mdi-check-circle'"
-      :error="isError"
-    />
 
     <!-- Snackbar pour le chargement -->
     <ToastLoading v-model="toast_loading" />
@@ -139,9 +131,16 @@ meta:
 import logo from "@/assets/images/logo.svg";
 import name from "@/assets/images/name.svg";
 import ToastLoading from "@/components/ui/toast-loading.vue";
-import ToastNotifications from "@/components/ui/toast-notifications.vue";
+import { useSeoHead } from "@/composables/useSeoHead";
+import { notify } from "@/helpers/notifications.helper";
 
 const router = useRouter();
+
+useSeoHead({
+  title: "Se Connecter",
+  subtitle: "Connectez-vous à votre tableau de bord",
+  forcePrefix: true,
+});
 
 // Refs
 const loginForm = ref();
@@ -151,9 +150,6 @@ const password = ref("");
 const showPassword = ref(false);
 const loading = ref(false);
 const toast_loading = ref(false);
-const snackbar = ref(false);
-const snackbarText = ref("");
-const isError = ref(false);
 
 // Règles de validation
 const usernameRules = [
@@ -186,17 +182,22 @@ const handleLogin = async () => {
       password: password.value,
     });
 
-    snackbarText.value = "Connexion réussie !";
-    snackbar.value = true;
+    notify({
+      color: "success",
+      message: "Connexion réussie !",
+      visible: true,
+    });
 
     // Rediriger après connexion
     setTimeout(() => {
       router.push("/client/dashboard");
     }, 1000);
   } catch (error) {
-    snackbarText.value = "Erreur de connexion. Veuillez réessayer.";
-    isError.value = true;
-    snackbar.value = true;
+    notify({
+      color: "error",
+      message: "Erreur de connexion. Veuillez réessayer.",
+      visible: true,
+    });
   } finally {
     loading.value = false;
   }
@@ -207,8 +208,11 @@ const forgotPassword = (e: Event) => {
 
   setTimeout(() => {
     toast_loading.value = false;
-    snackbarText.value = "Fonctionnalité à venir !";
-    snackbar.value = true;
+    notify({
+      color: "error",
+      message: "Nothing to see here !",
+      visible: true,
+    });
   }, 3000);
   console.log("Mot de passe oublié");
 };

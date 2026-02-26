@@ -5,6 +5,7 @@ interface Props {
   icon?: string;
   message?: string;
   error?: boolean;
+  close ?: () => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -37,6 +38,9 @@ watch(
         isVisible.value = false;
         emit("update:modelValue", false);
       }, 5000);
+    }
+    if(newVal === false && props.close) {
+      props.close();
     }
   },
 );
