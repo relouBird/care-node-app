@@ -21,18 +21,6 @@ export default function useAuthService(): ServiceProps {
     });
   };
 
-  /**
-   * S'Enregistrer à partir d'un parrain via les credentials...
-   */
-  const registerSponsored = async (
-    key:string,
-    payload: RegisterCredentialType
-  ): Promise<AxiosResponse> => {
-    return await request(`/auth/register/${key}`, {
-      method: "post",
-      data: payload,
-    });
-  };
 
   /**
    * Se connecter via les credentials...
@@ -130,7 +118,6 @@ export default function useAuthService(): ServiceProps {
 
   return {
     register,
-    registerSponsored,
     login,
     logout,
     update,
